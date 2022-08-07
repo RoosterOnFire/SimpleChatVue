@@ -6,34 +6,34 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: RouteNames.home,
-    component: () => import("@/components/PageHome.vue"),
+    component: () => import("@/pages/PageHome.vue"),
     children: [
       {
         path: "login",
         name: RouteNames.login,
-        component: () => import("@/components/PageLogin.vue"),
+        component: () => import("@/pages/PageLogin.vue"),
       },
       {
         path: "registration",
         name: RouteNames.registration,
-        component: () => import("@/components/PageRegistration.vue"),
+        component: () => import("@/pages/PageRegistration.vue"),
       },
     ],
   },
   {
     path: "/dashboard",
     name: RouteNames.dashboard,
-    component: () => import("@/components/PageDashboard.vue"),
+    component: () => import("@/pages/PageDashboard.vue"),
     children: [
       {
         path: "chat",
         name: RouteNames.dashboard_chat,
-        component: () => import("@/components/PageDashboardChat.vue"),
+        component: () => import("@/pages/PageDashboardChat.vue"),
       },
       {
         path: "rooms",
         name: RouteNames.dashboard_rooms,
-        component: () => import("@/components/PageDashboardRooms.vue"),
+        component: () => import("@/pages/PageDashboardRooms.vue"),
       },
     ],
   },

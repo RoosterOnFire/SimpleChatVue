@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { RouteNames, storageKeys, StatusUser } from "@/types/TypeEnums"
-import { User, UserData } from "@/types/TypeStateUser"
+import { User, UserData } from "@/store/TypeStateUser"
 import { Errors, Roles } from "@/types/TypeShared"
 
 export const useUserStore = defineStore("userStore", {

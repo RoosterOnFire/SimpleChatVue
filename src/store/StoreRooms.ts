@@ -1,7 +1,7 @@
 import { createUserMessage } from "@/helpers/createMessages"
 import { useUserStore } from "@/store/StoreUser"
 import { RouteNames } from "@/types/TypeEnums"
-import { RoomMessage, Rooms } from "@/types/TypeStateRooms"
+import { RoomMessage, Rooms } from "@/store/TypeStateRooms"
 import { defineStore } from "pinia"
 
 export const useRoomsStore = defineStore("roomsStore", {
