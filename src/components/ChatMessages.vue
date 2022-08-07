@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
   import { useRoomsStore } from "@/store/StoreRooms"
-  import { Message } from "@/types/TypeStateRooms"
+  import { Message } from "@/store/TypeStateRooms"
   import { ref, onUpdated, computed } from "vue"
 
   const container = ref<HTMLElement | null>(null)

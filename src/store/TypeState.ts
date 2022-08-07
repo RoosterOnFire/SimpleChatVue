@@ -1,4 +1,4 @@
-import { Rooms } from "@/types/TypeStateRooms"
+import { Rooms } from "@/store/TypeStateRooms"
 import { User } from "./TypeStateUser"
 
 export type State = {
