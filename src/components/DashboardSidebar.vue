@@ -1,24 +1,25 @@
 <template>
   <div class="flex flex-col gap-2 bg-primary">
-    <DashboardNavLink
+    <SidebarLink
       to="/dashboard/rooms"
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
     >
-      {{ "Rooms" }}
+      {{ "Join room" }}
       <ChatAlt2Icon class="h-6 w-6" />
-    </DashboardNavLink>
-    <DashboardNavLink type="button" class="mt-auto" @click="logout()">
+    </SidebarLink>
+    <SidebarButton type="button" class="mt-auto" @click="logout()">
       {{ "Logout" }}
       <LogoutIcon class="h-6 w-6" />
-    </DashboardNavLink>
+    </SidebarButton>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import DashboardNavLink from "@/components/DashboardNavLink.vue"
   import { useUserStore } from "@/store/StoreUser"
-  import { LogoutIcon } from "@heroicons/vue/solid"
+  import { ChatAlt2Icon, LogoutIcon } from "@heroicons/vue/solid"
   import { useRoute } from "vue-router"
+  import SidebarButton from "./SidebarButton.vue"
+  import SidebarLink from "./SidebarLink.vue"
 
   const user = useUserStore()
 
