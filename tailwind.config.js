@@ -3,6 +3,7 @@ const colors = require("tailwindcss/colors")
 const pimaryColor = colors.neutral
 const errorColor = colors.red
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
