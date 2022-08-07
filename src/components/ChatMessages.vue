@@ -12,15 +12,16 @@
 </template>
 
 <script lang="ts" setup>
-  import { useRoomsStore } from "@/store/StoreRooms"
   import { Message } from "@/store/TypeStateRooms"
-  import { ref, onUpdated, computed } from "vue"
+  import { onUpdated, PropType, ref } from "vue"
+
+  const props = defineProps({
+    messages: {
+      type: Array as PropType<Message[]>,
+    },
+  })
 
   const container = ref<HTMLElement | null>(null)
-  const rooms = useRoomsStore()
-
-  const messages = computed<Message[]>(() => rooms.roomsMessages)
-
   onUpdated(() => {
     container.value?.lastElementChild?.scrollIntoView()
   })
