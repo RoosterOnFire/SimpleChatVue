@@ -96,13 +96,13 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
     const roomsStore = useRoomsStore()
 
     switch (name) {
-      case "roomsJoin": {
+      case "joinRoom": {
         ChatSocket.emit(
           ChatSocketMessages.rooms_join,
           { roomName: args[0] },
           (payload: CallbackPayload) => {
             if (payload.success) {
-              return roomsStore.roomsJoinFulfilled(payload.data)
+              return roomsStore.joinRoomFulfilled(payload.data)
             }
             console.error(payload)
           }

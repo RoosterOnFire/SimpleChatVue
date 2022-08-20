@@ -35,7 +35,7 @@
 
   const onSubmit = handleSubmit((payload, { resetForm }) => {
     if (payload.room) {
-      rooms.roomsJoin(payload.room)
+      rooms.joinRoom(payload.room)
       resetForm()
     }
   })

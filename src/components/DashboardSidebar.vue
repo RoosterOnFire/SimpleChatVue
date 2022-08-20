@@ -8,6 +8,12 @@
         {{ "Join room" }}
         <ChatAlt2Icon class="h-6 w-6" />
       </SidebarLink>
+      <SidebarButton
+        v-for="name of rooms.roomNames"
+        @click="rooms.joinRoom(name)"
+      >
+        {{ name }}
+      </SidebarButton>
     </div>
     <div class="flex flex-col items-stretch">
       <SidebarButton type="button" @click="logout">
@@ -19,6 +25,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { useRoomsStore } from "@/store/StoreRooms"
   import { useUserStore } from "@/store/StoreUser"
   import { ChatAlt2Icon, LogoutIcon } from "@heroicons/vue/solid"
   import { useRoute } from "vue-router"
@@ -26,6 +33,7 @@
   import SidebarLink from "./SidebarLink.vue"
 
   const user = useUserStore()
+  const rooms = useRoomsStore()
 
   const logout = user.userLogout
 
