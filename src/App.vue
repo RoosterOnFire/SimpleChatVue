@@ -1,9 +1,6 @@
 <template>
   <router-view v-slot="{ Component }">
-    <div
-      v-if="loading"
-      class="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 translate-y-1/2"
-    >
+    <div v-if="user.isLoading" class="mx-auto flex content-center items-center">
       <SvgLoading />
     </div>
     <div
@@ -31,6 +28,5 @@
 
   user.sessionRestore()
 
-  const loading = computed(() => user.isLoading)
   const isHome = computed(() => route.name?.toString().startsWith("home"))
 </script>
