@@ -1,6 +1,6 @@
 const colors = require("tailwindcss/colors")
 
-const pimaryColor = colors.neutral
+const pimaryColor = colors.zinc
 const errorColor = colors.red
 
 /** @type {import('tailwindcss').Config} */

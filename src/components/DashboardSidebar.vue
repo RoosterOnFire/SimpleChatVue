@@ -1,16 +1,20 @@
 <template>
-  <div class="flex flex-col gap-2 bg-primary">
-    <SidebarLink
-      to="/dashboard/rooms"
-      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
-    >
-      {{ "Join room" }}
-      <ChatAlt2Icon class="h-6 w-6" />
-    </SidebarLink>
-    <SidebarButton type="button" class="mt-auto" @click="logout()">
-      {{ "Logout" }}
-      <LogoutIcon class="h-6 w-6" />
-    </SidebarButton>
+  <div class="flex flex-col border-r-2 bg-primary">
+    <div class="flex flex-1 flex-col items-stretch border-b-2">
+      <SidebarLink
+        to="/dashboard/rooms"
+        :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
+      >
+        {{ "Join room" }}
+        <ChatAlt2Icon class="h-6 w-6" />
+      </SidebarLink>
+    </div>
+    <div class="flex flex-col items-stretch">
+      <SidebarButton type="button" @click="logout">
+        {{ "Logout" }}
+        <LogoutIcon class="h-6 w-6" />
+      </SidebarButton>
+    </div>
   </div>
 </template>
 
