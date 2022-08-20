@@ -13,11 +13,9 @@ export const useRoomsStore = defineStore("roomsStore", {
   },
 
   getters: {
-    roomsMessages: (state) => {
-      return (
-        state.rooms.find((room) => room.name === state.selectedRoom)
-          ?.messages || []
-      )
+    messages: (state) => {
+      const room = state.rooms.find((room) => room.name === state.selectedRoom)
+      return room?.messages || []
     },
   },
 
@@ -37,32 +35,31 @@ export const useRoomsStore = defineStore("roomsStore", {
       const selectedRoom = this.rooms.find(
         (room) => room.name === this.selectedRoom
       )
-
       if (selectedRoom?.messages && selectedRoom.users) {
         selectedRoom.messages = []
         selectedRoom.users = []
       }
     },
-    messageCreate(payload: RoomMessage) {
-      this.rooms
-        .find((room) => room.name === this.selectedRoom)
-        ?.messages.push(payload.message)
-    },
-    messagesUpdate(payload: RoomMessage) {
-      this.rooms
-        .find((room) => room.name === payload.room)
-        ?.messages.push(payload.message)
-    },
-    messagesAdd(payload: string) {
+
+    addMessage(payload: string) {
       const user = useUserStore()
       if (!user) {
         return
       }
 
-      this.messageCreate({
+      this.makeChatMessage({
         room: this.selectedRoom as string,
         message: createUserMessage(user.data.username, payload),
       })
+    },
+    pushMessage(payload: RoomMessage) {
+      const room = this.rooms.find((room) => room.name === payload.room)
+      room?.messages.push(payload.message)
+    },
+
+    makeChatMessage(payload: RoomMessage) {
+      const room = this.rooms.find((room) => room.name === this.selectedRoom)
+      room?.messages.push(payload.message)
     },
   },
 })

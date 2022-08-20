@@ -31,7 +31,7 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
 
   ChatSocket.on(ChatSocketMessages.chat_message, (message: RoomMessage) => {
     const rooms = useRoomsStore()
-    rooms.messagesUpdate(message)
+    rooms.pushMessage(message)
   })
 
   ChatSocket.on(ChatSocketMessages.connect_error, (err) => {
@@ -107,6 +107,11 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
             console.error(payload)
           }
         )
+        break
+      }
+
+      case "makeChatMessage": {
+        ChatSocket.emit(ChatSocketMessages.chat_message, { ...args[0] })
         break
       }
 

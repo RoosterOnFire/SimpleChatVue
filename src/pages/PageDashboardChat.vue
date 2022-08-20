@@ -26,14 +26,14 @@
   const rooms = useRoomsStore()
 
   const newMessage = ref("")
-  const messages = computed<Message[]>(() => rooms.roomsMessages)
+  const messages = computed<Message[]>(() => rooms.messages)
 
   function sendMessage() {
     if (!newMessage.value) {
       return
     }
 
-    rooms.messagesAdd(newMessage.value)
+    rooms.addMessage(newMessage.value)
     newMessage.value = ""
   }
 </script>
