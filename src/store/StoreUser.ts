@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 import { RouteNames, storageKeys, StatusUser } from "@/types/TypeEnums"
 import { User, UserData } from "@/store/TypeStateUser"
 import { Errors, Roles } from "@/types/TypeShared"
+import { useRoomsStore } from "./StoreRooms"
 
 export const useUserStore = defineStore("userStore", {
   state: (): User => {
@@ -51,10 +52,13 @@ export const useUserStore = defineStore("userStore", {
         storageKeys.current_page
       )
 
+      const roomsStore = useRoomsStore()
+
       let goToRoute
       if (
         storageCurrentpage === null ||
-        storageCurrentpage.startsWith("home")
+        storageCurrentpage.startsWith("home") ||
+        roomsStore.selectedRoom === undefined
       ) {
         goToRoute = RouteNames.dashboard_rooms
       } else {
@@ -73,10 +77,12 @@ export const useUserStore = defineStore("userStore", {
       this.errors[payload] = true
       this.status = StatusUser.rejected
     },
+
     sessionRestore() {
       const token = sessionStorage.getItem(storageKeys.token)
       this.status = token ? StatusUser.pending : StatusUser.start
     },
+
     sessionDelete() {
       this.status = StatusUser.start
 
@@ -91,14 +97,17 @@ export const useUserStore = defineStore("userStore", {
 
       sessionStorage.removeItem(storageKeys.token)
     },
+
     resetInvalidSignIn() {
       this.errors.error_invalid_sing_in = false
     },
+
     userLogout() {
       this.sessionDelete()
 
       this.plugins.router.push({ name: RouteNames.home })
     },
+
     errorsAdd(payload: Errors) {
       this.errors[payload] = true
 
@@ -106,6 +115,7 @@ export const useUserStore = defineStore("userStore", {
         this.sessionDelete()
       }
     },
+
     register(payload: { username: string; password: string }): void {
       console.log("WIP", payload)
     },
