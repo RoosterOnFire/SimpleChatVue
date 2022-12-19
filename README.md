@@ -1,2 +1,2 @@
-# Simple Chat front with Vue
+# SimpleChat front with Vue
 
