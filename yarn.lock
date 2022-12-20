@@ -1338,6 +1338,11 @@ pinia@^2.0.11:
     "@vue/devtools-api" "^6.0.0-beta.21"
     vue-demi "*"
 
+pocketbase@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/pocketbase/-/pocketbase-0.9.0.tgz#8c7b38568c7ac01505dd3cd23e9ead9bfe5559f6"
+  integrity sha512-wLH8JNqtilgVgXMcO9kWcydryxemf8rZgTyn+DTHWtkwOe1ya6MuAOpVHtljIUxxtukZ82LSB2K7h12FZHwGMA==
+
 postcss-js@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/postcss-js/-/postcss-js-3.0.3.tgz#2f0bd370a2e8599d45439f6970403b5873abda33"
