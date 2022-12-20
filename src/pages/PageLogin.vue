@@ -35,10 +35,10 @@
   import HomeForm from "@/components/HomeForm.vue"
   import { useAuthStore } from "@/store/storeAuth"
 
-  const user = useAuthStore()
+  const auth = useAuthStore()
   const router = useRouter()
 
-  const isLoginRejected = computed(() => user.isLoginRejected)
+  const isLoginRejected = computed(() => auth.isLoginRejected)
 
   const { errors, isSubmitting, handleSubmit } = useForm({
     validationSchema: object({
@@ -53,8 +53,10 @@
   const { value: password } = useField<string>("password")
 
   const onSubmit = handleSubmit((payload, { resetForm }) => {
-    user.userSignIn(payload)
-    resetForm()
+    if (payload.username != undefined && payload.password != undefined) {
+      auth.loginWithUsernamePassword(payload.username, payload.password)
+      resetForm()
+    }
   })
 
   const goBack = router.back

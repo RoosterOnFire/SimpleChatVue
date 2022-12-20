@@ -41,8 +41,16 @@ export const useAuthStore = defineStore("authStore", {
   },
 
   actions: {
-    userSignIn(payload: { username?: string; password?: string } | undefined) {
-      this.status = payload ? StatusUser.pending : StatusUser.start
+    async loginWithUsernamePassword(username: string, password: string) {
+      try {
+        const authData = await this.plugins.pb
+          .collection("users")
+          .authWithPassword(username, password)
+
+        return true
+      } catch (error) {
+        return false
+      }
     },
     userSignInFulfilled(payload: UserData) {
       this.data = payload
