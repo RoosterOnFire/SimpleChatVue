@@ -8,13 +8,15 @@
 </template>
 
 <script lang="ts" setup>
+  import { PropType } from "vue"
+
   const props = defineProps({
     title: {
       type: String,
       required: true,
     },
     type: {
-      type: String,
+      type: String as PropType<"button" | "submit" | "reset">,
       default: "button",
     },
   })

@@ -1,5 +1,5 @@
-import { StatusUser } from "@/types/TypeEnums"
-import { Errors, Roles } from "@/types/TypeShared"
+import { StatusUser } from "@/types/typeEnums"
+import { Errors, Roles } from "@/types/typeShared"
 
 export type User = {
   status: StatusUser

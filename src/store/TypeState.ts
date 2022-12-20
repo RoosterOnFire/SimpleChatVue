@@ -1,5 +1,5 @@
-import { Rooms } from "@/store/TypeStateRooms"
-import { User } from "./TypeStateUser"
+import { Rooms } from "@/store/typeStateRooms"
+import { User } from "./typeStateUser"
 
 export type State = {
   user?: User

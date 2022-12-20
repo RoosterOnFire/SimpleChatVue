@@ -1,12 +1,11 @@
-import "./styles.css"
-import { createApp, markRaw } from "vue"
-import App from "./App.vue"
-import Router from "@/router/Router"
 import { createPinia } from "pinia"
-import { createPluginChatSocket } from "./store/StorePluginChatSocket"
+import { createApp, markRaw } from "vue"
+
+import "./styles.css"
+import App from "./App.vue"
+import Router from "@/router/router"
 
 const pinia = createPinia()
-pinia.use(createPluginChatSocket)
 
 pinia.use(({ store }) => {
   store.plugins = {

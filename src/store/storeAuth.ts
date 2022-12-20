@@ -1,10 +1,11 @@
 import { defineStore } from "pinia"
-import { RouteNames, storageKeys, StatusUser } from "@/types/TypeEnums"
-import { User, UserData } from "@/store/TypeStateUser"
-import { Errors, Roles } from "@/types/TypeShared"
-import { useRoomsStore } from "./StoreRooms"
 
-export const useUserStore = defineStore("userStore", {
+import { User, UserData } from "@/store/typeStateUser"
+import { RouteNames, StatusUser, storageKeys } from "@/types/typeEnums"
+import { Errors, Roles } from "@/types/typeShared"
+import { useRoomsStore } from "./storeRooms"
+
+export const useAuthStore = defineStore("authStore", {
   state: (): User => {
     return {
       status: StatusUser.init,

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
-import { RouteNames, storageKeys } from "@/types/TypeEnums"
-import { useUserStore } from "@/store/StoreUser"
+
+import { useAuthStore } from "@/store/storeAuth"
+import { RouteNames, storageKeys } from "@/types/typeEnums"
 
 const routes: RouteRecordRaw[] = [
   {
@@ -45,7 +46,7 @@ const Router = createRouter({
 })
 
 Router.beforeEach((to, from, next) => {
-  const user = useUserStore()
+  const user = useAuthStore()
 
   if (
     (from.name === RouteNames.home || to.name !== RouteNames.home) &&

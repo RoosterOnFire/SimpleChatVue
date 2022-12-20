@@ -16,7 +16,7 @@
 <script lang="ts" setup>
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
-  import { useRoomsStore } from "@/store/StoreRooms"
+  import { useRoomsStore } from "@/store/storeRooms"
   import { useField, useForm } from "vee-validate"
   import { object, string } from "yup"
   import AppInputError from "@/components/AppInputError.vue"

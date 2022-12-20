@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { Message } from "@/store/TypeStateRooms"
+  import { Message } from "@/store/typeStateRooms"
   import { onUpdated, PropType, ref } from "vue"
 
   const props = defineProps({

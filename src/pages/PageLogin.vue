@@ -17,7 +17,7 @@
       <AppInput v-model="password" placeholder="Password" type="password" />
     </div>
     <AppButton title="Sign in" type="submit" :disabled="isSubmitting">
-      <LoginIcon class="h-6 w-6" />
+      <!-- <LoginIcon class="h-6 w-6" /> -->
     </AppButton>
     <AppButton title="Go Back" @click="goBack" />
   </HomeForm>
@@ -26,16 +26,16 @@
 <script lang="ts" setup>
   import { computed } from "vue"
   import { useRouter } from "vue-router"
-  import { LoginIcon } from "@heroicons/vue/outline"
+  // import { LoginIcon } from "@heroicons/vue/outline"
   import { useForm, useField } from "vee-validate"
   import { object, string } from "yup"
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
   import AppInputError from "@/components/AppInputError.vue"
   import HomeForm from "@/components/HomeForm.vue"
-  import { useUserStore } from "@/store/StoreUser"
+  import { useAuthStore } from "@/store/storeAuth"
 
-  const user = useUserStore()
+  const user = useAuthStore()
   const router = useRouter()
 
   const isLoginRejected = computed(() => user.isLoginRejected)

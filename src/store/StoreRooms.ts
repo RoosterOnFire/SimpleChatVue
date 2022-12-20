@@ -1,8 +1,9 @@
-import { createUserMessage } from "@/helpers/createMessages"
-import { useUserStore } from "@/store/StoreUser"
-import { RouteNames } from "@/types/TypeEnums"
-import { RoomMessage, Rooms } from "@/store/TypeStateRooms"
 import { defineStore } from "pinia"
+
+import { useAuthStore } from "@/store/storeAuth"
+import { RoomMessage, Rooms } from "@/store/typeStateRooms"
+import { RouteNames } from "@/types/typeEnums"
+import { createUserMessage } from "@/util/createMessages"
 
 export const useRoomsStore = defineStore("roomsStore", {
   state: (): Rooms => {
@@ -35,7 +36,7 @@ export const useRoomsStore = defineStore("roomsStore", {
     },
 
     addMessage(payload: string) {
-      const user = useUserStore()
+      const user = useAuthStore()
       if (!user) {
         return
       }

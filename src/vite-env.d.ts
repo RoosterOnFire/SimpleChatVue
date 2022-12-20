@@ -8,5 +8,5 @@ declare module "*.vue" {
 }
 
 interface ImportMetaEnv {
-  VITE_SOCKET_ENDPOINT: string
+  VITE_POCKETBASE: string
 }

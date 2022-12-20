@@ -8,7 +8,7 @@
     >
       <AppInput v-model="newMessage" />
       <AppButton title="Chat" type="submit">
-        <MailIcon class="h-6 w-6" />
+        <!-- <MailIcon class="h-6 w-6" /> -->
       </AppButton>
     </form>
   </div>
@@ -18,10 +18,10 @@
   import ChatMessages from "@/components/ChatMessages.vue"
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
-  import { useRoomsStore } from "@/store/StoreRooms"
-  import { MailIcon } from "@heroicons/vue/outline"
+  import { useRoomsStore } from "@/store/storeRooms"
+  // import { MailIcon } from "@heroicons/vue/outline"
   import { computed, ref } from "vue"
-  import { Message } from "@/store/TypeStateRooms"
+  import { Message } from "@/store/typeStateRooms"
 
   const rooms = useRoomsStore()
 

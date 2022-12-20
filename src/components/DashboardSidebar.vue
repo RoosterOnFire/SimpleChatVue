@@ -6,7 +6,7 @@
         :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
       >
         {{ "Join room" }}
-        <ChatAlt2Icon class="h-6 w-6" />
+        <!-- <ChatAlt2Icon class="h-6 w-6" /> -->
       </SidebarLink>
       <SidebarButton
         v-for="name of rooms.roomNames"
@@ -18,21 +18,21 @@
     <div class="flex flex-col items-stretch">
       <SidebarButton type="button" @click="logout">
         {{ "Logout" }}
-        <LogoutIcon class="h-6 w-6" />
+        <!-- <LogoutIcon class="h-6 w-6" /> -->
       </SidebarButton>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { useRoomsStore } from "@/store/StoreRooms"
-  import { useUserStore } from "@/store/StoreUser"
-  import { ChatAlt2Icon, LogoutIcon } from "@heroicons/vue/solid"
+  import { useRoomsStore } from "@/store/storeRooms"
+  import { useAuthStore } from "@/store/storeAuth"
+  // import { ChatAlt2Icon, LogoutIcon } from "@heroicons/vue/solid"
   import { useRoute } from "vue-router"
   import SidebarButton from "./SidebarButton.vue"
   import SidebarLink from "./SidebarLink.vue"
 
-  const user = useUserStore()
+  const user = useAuthStore()
   const rooms = useRoomsStore()
 
   const logout = user.userLogout
