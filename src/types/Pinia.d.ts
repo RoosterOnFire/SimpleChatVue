@@ -4,9 +4,7 @@ import PocketBase from "pocketbase"
 
 declare module "pinia" {
   export interface PiniaCustomProperties {
-    plugins: {
-      router: Router
-      pb: PocketBase
-    }
+    router: Router
+    pb: PocketBase
   }
 }

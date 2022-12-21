@@ -4,5 +4,5 @@ import PocketBase from "pocketbase"
 const pb = new PocketBase(import.meta.env.VITE_POCKETBASE)
 
 export function storePocketbasePlugin(context: PiniaPluginContext) {
-  context.store.plugins.pb = pb
+  context.store.pb = pb
 }

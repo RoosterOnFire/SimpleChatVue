@@ -74,7 +74,7 @@ export const useAuthStore = defineStore("authStore", {
         goToRoute = storageCurrentpage
       }
 
-      this.plugins.router
+      this.router
         .push({
           name: goToRoute,
         })
@@ -114,7 +114,7 @@ export const useAuthStore = defineStore("authStore", {
     userLogout() {
       this.sessionDelete()
 
-      this.plugins.router.push({ name: RouteNames.home })
+      this.router.push({ name: RouteNames.home })
     },
 
     errorsAdd(payload: Errors) {

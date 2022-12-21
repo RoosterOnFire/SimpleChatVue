@@ -40,12 +40,12 @@ const routes: RouteRecordRaw[] = [
   },
 ]
 
-const Router = createRouter({
+const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
 
-Router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   const user = useAuthStore()
 
   if (
@@ -62,11 +62,11 @@ Router.beforeEach((to, from, next) => {
   }
 })
 
-Router.afterEach((to) => {
+router.afterEach((to) => {
   const routeName = to.name as string
   if (!routeName.startsWith("home")) {
     sessionStorage.setItem(storageKeys.current_page, routeName)
   }
 })
 
-export default Router
+export default router

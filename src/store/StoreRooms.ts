@@ -26,7 +26,7 @@ export const useRoomsStore = defineStore("roomsStore", {
   actions: {
     joinRoom(payload: string) {
       this.selectedRoom = payload
-      this.plugins.router?.push({ name: RouteNames.dashboard_chat })
+      this.router?.push({ name: RouteNames.dashboard_chat })
     },
     joinRoomFulfilled(payload: { name: string }) {
       const room = this.rooms.find((room) => room.name === payload.name)
