@@ -8,7 +8,6 @@ import { createUserMessage } from "@/util/createMessages"
 export const useRoomsStore = defineStore("roomsStore", {
   state: (): Rooms => {
     return {
-      selectedRoom: undefined,
       rooms: [],
     }
   },
@@ -24,15 +23,25 @@ export const useRoomsStore = defineStore("roomsStore", {
   },
 
   actions: {
-    joinRoom(payload: string) {
-      this.selectedRoom = payload
-      this.router?.push({ name: RouteNames.dashboard_chat })
-    },
-    joinRoomFulfilled(payload: { name: string }) {
-      const room = this.rooms.find((room) => room.name === payload.name)
-      if (room === undefined) {
-        this.rooms.push({ name: payload.name, users: [], messages: [] })
-      }
+    joinRoom(roomName: string) {
+      this.pb
+        .collection("rooms")
+        .getFirstListItem(`room_name="${roomName}"`)
+        .then(
+          () => {
+            this.selectedRoom = roomName
+            this.router.push({ name: RouteNames.dashboard_chat })
+          },
+          () => {
+            this.pb
+              .collection("rooms")
+              .create({ room_name: roomName })
+              .then(() => {
+                this.selectedRoom = roomName
+                this.router.push({ name: RouteNames.dashboard_chat })
+              }, console.error)
+          }
+        )
     },
 
     addMessage(payload: string) {
