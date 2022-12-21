@@ -6,5 +6,6 @@ declare module "pinia" {
   export interface PiniaCustomProperties {
     router: Router
     pb: PocketBase
+    storageCurrentpage: string | null
   }
 }

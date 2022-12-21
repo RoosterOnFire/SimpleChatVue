@@ -1,63 +1,58 @@
 <template>
+  <h2 class="text-5xl font-bold text-primary">{{ "Simple Chat" }}</h2>
+
   <HomeForm @submit="onSubmit">
-    <div></div>
-    <AppInputError v-if="isLoginRejected">
+    <AppInputError v-if="errors.form">
       {{ "Login error" }}
     </AppInputError>
-    <div>
-      <AppInputError v-if="errors.username">
-        {{ errors.username }}
-      </AppInputError>
-      <AppInput v-model="username" placeholder="Username" />
-    </div>
-    <div>
-      <AppInputError v-if="errors.password">
-        {{ errors.password }}</AppInputError
-      >
-      <AppInput v-model="password" placeholder="Password" type="password" />
-    </div>
+
+    <AppInput v-model="username" placeholder="Username" />
+
+    <AppInput v-model="password" placeholder="Password" type="password" />
+
     <AppButton title="Sign in" type="submit" :disabled="isSubmitting">
       <!-- <LoginIcon class="h-6 w-6" /> -->
     </AppButton>
-    <AppButton title="Go Back" @click="goBack" />
   </HomeForm>
 </template>
 
 <script lang="ts" setup>
-  import { computed } from "vue"
   import { useRouter } from "vue-router"
   // import { LoginIcon } from "@heroicons/vue/outline"
-  import { useForm, useField } from "vee-validate"
+  import { useField, useForm } from "vee-validate"
   import { object, string } from "yup"
+
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
   import AppInputError from "@/components/AppInputError.vue"
   import HomeForm from "@/components/HomeForm.vue"
   import { useAuthStore } from "@/store/storeAuth"
+  import { ref } from "vue"
 
   const auth = useAuthStore()
   const router = useRouter()
 
-  const isLoginRejected = computed(() => auth.isLoginRejected)
-
   const { errors, isSubmitting, handleSubmit } = useForm({
     validationSchema: object({
+      form: string().nullable(),
       username: string().required("Username is required"),
-      password: string()
-        .required("Password is required")
-        .min(4, "Password must be at least 4 characters"),
+      password: string().required("Password is required"),
     }),
   })
 
   const { value: username } = useField<string>("username")
   const { value: password } = useField<string>("password")
 
-  const onSubmit = handleSubmit((payload, { resetForm }) => {
+  const onSubmit = handleSubmit((payload, { setErrors, resetForm }) => {
     if (payload.username != undefined && payload.password != undefined) {
-      auth.loginWithUsernamePassword(payload.username, payload.password)
-      resetForm()
+      auth.loginWithUsernamePassword(payload.username, payload.password).then(
+        (res) => {
+          resetForm()
+        },
+        (err) => {
+          setErrors({ form: err })
+        }
+      )
     }
   })
-
-  const goBack = router.back
 </script>

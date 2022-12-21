@@ -7,19 +7,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: RouteNames.home,
-    component: () => import("@/pages/PageHome.vue"),
-    children: [
-      {
-        path: "login",
-        name: RouteNames.login,
-        component: () => import("@/pages/PageLogin.vue"),
-      },
-      {
-        path: "registration",
-        name: RouteNames.registration,
-        component: () => import("@/pages/PageRegistration.vue"),
-      },
-    ],
+    component: () => import("@/pages/PageLogin.vue"),
   },
   {
     path: "/dashboard",
@@ -46,11 +34,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const user = useAuthStore()
-
+  const auth = useAuthStore()
   if (
-    (from.name === RouteNames.home || to.name !== RouteNames.home) &&
-    !user.hasAccess
+    auth == null &&
+    (from.name === RouteNames.home || to.name !== RouteNames.home)
   ) {
     if (to.name === RouteNames.login || to.name === RouteNames.registration) {
       next()

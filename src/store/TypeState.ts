@@ -1,8 +1,8 @@
 import { Rooms } from "@/store/typeStateRooms"
-import { User } from "./typeStateUser"
+import { Auth } from "./typeStateUser"
 
 export type State = {
-  user?: User
+  auth?: Auth
   meta?: Meta
   rooms?: Rooms
 }
