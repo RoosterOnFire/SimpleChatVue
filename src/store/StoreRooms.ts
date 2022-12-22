@@ -1,9 +1,7 @@
 import { defineStore } from "pinia"
 
-import { useAuthStore } from "@/store/storeAuth"
 import { RoomMessage, Rooms } from "@/store/typeStateRooms"
 import { RouteNames } from "@/types/typeEnums"
-import { createUserMessage } from "@/util/createMessages"
 
 export const useRoomsStore = defineStore("roomsStore", {
   state: (): Rooms => {
@@ -24,45 +22,22 @@ export const useRoomsStore = defineStore("roomsStore", {
 
   actions: {
     joinRoom(roomName: string) {
-      this.pb
-        .collection("rooms")
-        .getFirstListItem(`room_name="${roomName}"`)
-        .then(
-          () => {
+      this.pbActions.findRoom(roomName).then(
+        (res) => {
+          this.selectedRoom = roomName
+          this.router.push({ name: RouteNames.dashboard_chat })
+        },
+        () => {
+          this.pbActions.createRoom(roomName).then(() => {
             this.selectedRoom = roomName
             this.router.push({ name: RouteNames.dashboard_chat })
-          },
-          () => {
-            this.pb
-              .collection("rooms")
-              .create({ room_name: roomName })
-              .then(() => {
-                this.selectedRoom = roomName
-                this.router.push({ name: RouteNames.dashboard_chat })
-              }, console.error)
-          }
-        )
+          }, console.error)
+        }
+      )
     },
 
-    addMessage(payload: string) {
-      const user = useAuthStore()
-      if (!user) {
-        return
-      }
-
-      this.makeChatMessage({
-        room: this.selectedRoom as string,
-        message: createUserMessage(user.data.username, payload),
-      })
-    },
-    pushMessage(payload: RoomMessage) {
-      const room = this.rooms.find((room) => room.name === payload.room)
-      room?.messages.push(payload.message)
-    },
-
-    makeChatMessage(payload: RoomMessage) {
-      const room = this.rooms.find((room) => room.name === this.selectedRoom)
-      room?.messages.push(payload.message)
-    },
+    addMessage(payload: string) {},
+    pushMessage(payload: RoomMessage) {},
+    makeChatMessage(payload: RoomMessage) {},
   },
 })
