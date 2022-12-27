@@ -1,3 +1,5 @@
+import { Record } from "pocketbase"
+
 export type Room = {
   name: string
   users: string[]
@@ -6,7 +8,8 @@ export type Room = {
 
 export type Rooms = {
   selectedRoom?: string
-  rooms: Room[]
+  rooms: Record[]
+  roomMessages: string[]
 }
 
 export type RoomMessage = {

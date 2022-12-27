@@ -1,5 +1,5 @@
 import { PiniaPluginContext } from "pinia"
-import PocketBase, { Record } from "pocketbase"
+import PocketBase, { Record, RecordSubscription } from "pocketbase"
 
 const pb = new PocketBase(import.meta.env.VITE_POCKETBASE)
 
@@ -53,6 +53,23 @@ export function storePocketbasePlugin(context: PiniaPluginContext) {
       }
 
       return Promise.reject("Missing user")
+    },
+
+    subscribeToRoom(callback) {
+      pb.collection("message").subscribe("*", callback)
+    },
+
+    sendMessage(room: Record, message: string) {
+      const user_id = pb.authStore.model?.id
+      if (user_id == undefined) {
+        return Promise.reject("Missing user")
+      }
+
+      return pb.collection("message").create({
+        room_id: room.id,
+        user_id: user_id,
+        message: message,
+      })
     },
   }
 }
