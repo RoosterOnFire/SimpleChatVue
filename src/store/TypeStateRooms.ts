@@ -1,21 +1,13 @@
-export type Room = {
-  name: string
-  users: string[]
-  messages: Message[]
-}
+import { Record } from "pocketbase"
 
 export type Rooms = {
-  selectedRoom: string | undefined
-  rooms: Room[]
+  selectedRoom?: string
+  rooms: Record[]
+  roomMessages: RoomMessage[]
 }
 
 export type RoomMessage = {
-  room: string
-  message: Message
-}
-
-export type Message = {
-  id: number
-  user: string
-  value: string
+  username: string
+  message: string
+  created: string
 }

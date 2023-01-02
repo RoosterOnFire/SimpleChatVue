@@ -22,25 +22,23 @@
         placeholder="Repeat password"
       />
     </div>
-    <AppButton title="Join" type="submit">
-      <SparklesIcon class="h-6 w-6" />
-    </AppButton>
+    <AppButton title="Join" type="submit"></AppButton>
     <AppButton title="Go Back" @click="goBack" />
   </HomeForm>
 </template>
 
 <script lang="ts" setup>
-  import AppButton from "@/components/AppButton.vue"
-  import AppInput from "@/components/AppInput.vue"
-  import AppInputError from "@/components/AppInputError.vue"
-  import HomeForm from "@/components/HomeForm.vue"
-  import { useUserStore } from "@/store/StoreUser"
-  import { SparklesIcon } from "@heroicons/vue/outline"
   import { useField, useForm } from "vee-validate"
   import { useRouter } from "vue-router"
   import { object, ref as yupRef, string } from "yup"
 
-  const user = useUserStore()
+  import AppButton from "@/components/AppButton.vue"
+  import AppInput from "@/components/AppInput.vue"
+  import AppInputError from "@/components/AppInputError.vue"
+  import HomeForm from "@/components/HomeForm.vue"
+  import { useAuthStore } from "@/store/storeAuth"
+
+  const user = useAuthStore()
   const router = useRouter()
 
   const { errors, handleSubmit } = useForm({
@@ -61,7 +59,6 @@
 
   const register = handleSubmit(({ username, password }) => {
     if (username && password) {
-      user.register({ username, password })
     }
   })
 

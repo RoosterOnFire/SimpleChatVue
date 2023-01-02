@@ -1,24 +1,13 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
-import { RouteNames, storageKeys } from "@/types/TypeEnums"
-import { useUserStore } from "@/store/StoreUser"
+
+import { useAuthStore } from "@/store/storeAuth"
+import { RouteNames, storageKeys } from "@/types/typeEnums"
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: RouteNames.home,
-    component: () => import("@/pages/PageHome.vue"),
-    children: [
-      {
-        path: "login",
-        name: RouteNames.login,
-        component: () => import("@/pages/PageLogin.vue"),
-      },
-      {
-        path: "registration",
-        name: RouteNames.registration,
-        component: () => import("@/pages/PageRegistration.vue"),
-      },
-    ],
+    component: () => import("@/pages/PageLogin.vue"),
   },
   {
     path: "/dashboard",
@@ -39,17 +28,16 @@ const routes: RouteRecordRaw[] = [
   },
 ]
 
-const Router = createRouter({
+const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
 
-Router.beforeEach((to, from, next) => {
-  const user = useUserStore()
-
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore()
   if (
-    (from.name === RouteNames.home || to.name !== RouteNames.home) &&
-    !user.hasAccess
+    auth == null &&
+    (from.name === RouteNames.home || to.name !== RouteNames.home)
   ) {
     if (to.name === RouteNames.login || to.name === RouteNames.registration) {
       next()
@@ -61,11 +49,11 @@ Router.beforeEach((to, from, next) => {
   }
 })
 
-Router.afterEach((to) => {
+router.afterEach((to) => {
   const routeName = to.name as string
   if (!routeName.startsWith("home")) {
     sessionStorage.setItem(storageKeys.current_page, routeName)
   }
 })
 
-export default Router
+export default router

@@ -18,5 +18,4 @@ export enum RouteNames {
 
 export enum storageKeys {
   current_page = "currentpage",
-  token = "token",
 }

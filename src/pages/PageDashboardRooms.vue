@@ -14,11 +14,13 @@
 </template>
 
 <script lang="ts" setup>
-  import AppButton from "@/components/AppButton.vue"
-  import AppInput from "@/components/AppInput.vue"
-  import { useRoomsStore } from "@/store/StoreRooms"
   import { useField, useForm } from "vee-validate"
   import { object, string } from "yup"
+
+  import AppButton from "@/components/AppButton.vue"
+  import AppInput from "@/components/AppInput.vue"
+  import { useRoomsStore } from "@/store/storeRooms"
+
   import AppInputError from "@/components/AppInputError.vue"
 
   const rooms = useRoomsStore()

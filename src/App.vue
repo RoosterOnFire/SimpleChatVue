@@ -20,10 +20,10 @@
 <script lang="ts" setup>
   import { computed } from "vue"
   import { useRoute } from "vue-router"
-  import { useUserStore } from "@/store/StoreUser"
+  import { useAuthStore } from "@/store/storeAuth"
   import SvgLoading from "@/components/SvgLoading.vue"
 
-  const user = useUserStore()
+  const user = useAuthStore()
   const route = useRoute()
 
   user.sessionRestore()

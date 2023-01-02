@@ -1,2 +1,1 @@
-# SimpleChat front with Vue
-
+## Chat made with Vue and Pocketbase
