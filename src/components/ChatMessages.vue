@@ -4,20 +4,20 @@
       v-for="(message, index) of messages"
       :key="index"
       class="w-max cursor-default select-all rounded-full border-2 bg-white px-4 py-2 text-black"
-      :class="{ 'text-blue-600': message.user === 'App' }"
     >
-      {{ message.user }}: {{ message.value }}
+      {{ message.username }}: {{ message.message }}
     </p>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { Message } from "@/store/typeStateRooms"
   import { onUpdated, PropType, ref } from "vue"
+
+  import { RoomMessage } from "@/store/typeStateRooms"
 
   const props = defineProps({
     messages: {
-      type: Array as PropType<Message[]>,
+      type: Array as PropType<RoomMessage[]>,
     },
   })
 

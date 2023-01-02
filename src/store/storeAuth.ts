@@ -5,7 +5,7 @@ import { Auth } from "@/store/typeStateUser"
 import { RouteNames, StatusUser, storageKeys } from "@/types/typeEnums"
 import { useRoomsStore } from "./storeRooms"
 
-export const useAuthStore = defineStore("authStore", {
+export const useAuthStore = defineStore("auth", {
   state: (): Auth => {
     return {
       status: StatusUser.init,
@@ -13,15 +13,6 @@ export const useAuthStore = defineStore("authStore", {
   },
 
   getters: {
-    isCurrentUser: (state) => {
-      return false
-    },
-    hasAccess: (state) => {
-      return false
-    },
-    hasNickname: (state) => {
-      return false
-    },
     isLoading: (state) => {
       return [StatusUser.init, StatusUser.pending].includes(state.status)
     },
@@ -33,8 +24,6 @@ export const useAuthStore = defineStore("authStore", {
         const authData = await this.pb
           .collection("users")
           .authWithPassword(username, password)
-
-        this.token = authData.token
 
         const storageCurrentpage = sessionStorage.getItem(
           storageKeys.current_page
@@ -78,7 +67,6 @@ export const useAuthStore = defineStore("authStore", {
         .then(
           (res) => {
             this.status = StatusUser.fulfilled
-            this.token = res.token
 
             const storageCurrentpage = this.storageCurrentpage
 
@@ -112,13 +100,8 @@ export const useAuthStore = defineStore("authStore", {
 
     userLogout() {
       this.status = StatusUser.start
-      this.token = undefined
       this.pb.authStore.clear()
       this.router.push({ name: RouteNames.home })
-    },
-
-    register(payload: { username: string; password: string }): void {
-      console.log("WIP", payload)
     },
   },
 })

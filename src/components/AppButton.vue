@@ -3,7 +3,7 @@
     class="flex justify-center gap-2 rounded-md border border-transparent bg-primary-light py-2 px-4 align-middle font-medium text-white focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-offset-2"
     :type="type"
   >
-    {{ title }}<slot />
+    {{ title }}<slot></slot>
   </button>
 </template>
 
