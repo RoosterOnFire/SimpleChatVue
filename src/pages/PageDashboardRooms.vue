@@ -15,30 +15,33 @@
 
 <script lang="ts" setup>
   import { useField, useForm } from "vee-validate"
-  import { object, string } from "yup"
 
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
   import { useRoomsStore } from "@/store/storeRooms"
-
   import AppInputError from "@/components/AppInputError.vue"
+  import { ClientResponseError } from "pocketbase"
 
   const rooms = useRoomsStore()
 
-  const { errors, handleSubmit } = useForm({
-    validationSchema: object({
-      room: string()
-        .min(4, "Room must be at least 4 characters")
-        .required("Room name is required"),
-    }),
-  })
+  const { errors, handleSubmit } = useForm<{ room: string }>()
 
   const { value: room } = useField<string>("room")
 
-  const onSubmit = handleSubmit((payload, { resetForm }) => {
+  const onSubmit = handleSubmit((payload, { resetForm, setFieldError }) => {
     if (payload.room) {
-      rooms.joinRoom(payload.room)
-      resetForm()
+      rooms.joinRoom(payload.room).then(
+        (res) => {
+          if (res.status == "OK") {
+            resetForm()
+          } else if (res.status == "ERROR") {
+            setFieldError("room", res.error.data.data?.room_name?.message)
+          }
+        },
+        (err) => {
+          console.error(err)
+        }
+      )
     }
   })
 </script>

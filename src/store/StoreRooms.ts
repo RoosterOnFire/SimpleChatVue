@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { Record, RecordSubscription } from "pocketbase"
+import { ClientResponseError, Record, RecordSubscription } from "pocketbase"
 
 import { Rooms } from "@/store/typeStateRooms"
 import { RouteNames } from "@/types/typeEnums"
@@ -29,21 +29,48 @@ export const useRoomsStore = defineStore("rooms", {
   },
 
   actions: {
-    joinRoom(roomName: string) {
-      const connectedRoom = this.joinedRooms.find((row) => row.id == roomName)
+    async joinRoom(
+      roomName: string
+    ): Promise<
+      { status: "OK" } | { status: "ERROR"; error: ClientResponseError }
+    > {
+      try {
+        const connectedRoom = this.joinedRooms.find((row) => row.id == roomName)
 
-      if (connectedRoom != undefined) {
-        this.selectedRoom = connectedRoom.id
-        this.roomMessages = []
-        return
-      }
+        if (connectedRoom != undefined) {
+          this.selectedRoom = connectedRoom.id
+          this.roomMessages = []
+          return { status: "OK" }
+        }
 
-      this.pbActions.findRoom(roomName).then(
-        (res) => {
-          if (this.joinedRooms.findIndex((row) => row.id == res.id) == -1) {
-            this.rooms.push(res)
-          }
+        const res = await this.pbActions.findRoom(roomName)
+
+        if (this.joinedRooms.findIndex((row) => row.id == res.id) == -1) {
+          this.rooms.push(res)
+        }
+        this.selectedRoom = res.id
+
+        const self = this
+        this.pbActions.subscribeToRoom(function (
+          e: RecordSubscription<Record>
+        ) {
+          self.roomMessages.push({
+            username: e.record.username,
+            message: e.record.message,
+            created: e.record.created,
+          })
+        })
+
+        this.router.push({ name: RouteNames.dashboard_chat })
+
+        return { status: "OK" }
+      } catch (err) {
+        try {
+          const res = await this.pbActions.createRoom(roomName)
+
           this.selectedRoom = res.id
+          this.rooms.push(res)
+          this.roomMessages = []
 
           const self = this
           this.pbActions.subscribeToRoom(function (
@@ -57,28 +84,15 @@ export const useRoomsStore = defineStore("rooms", {
           })
 
           this.router.push({ name: RouteNames.dashboard_chat })
-        },
-        () => {
-          this.pbActions.createRoom(roomName).then((res) => {
-            this.selectedRoom = res.id
-            this.rooms.push(res)
-            this.roomMessages = []
-
-            const self = this
-            this.pbActions.subscribeToRoom(function (
-              e: RecordSubscription<Record>
-            ) {
-              self.roomMessages.push({
-                username: e.record.username,
-                message: e.record.message,
-                created: e.record.created,
-              })
-            })
-
-            this.router.push({ name: RouteNames.dashboard_chat })
-          }, console.error)
+          return { status: "OK" }
+        } catch (error) {
+          if (error instanceof ClientResponseError) {
+            return { status: "ERROR", error: error }
+          } else {
+            throw error
+          }
         }
-      )
+      }
     },
 
     selectRoom(id: string) {
