@@ -10,6 +10,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/pages/PageLogin.vue"),
   },
   {
+    path: "/new",
+    name: RouteNames.new,
+    component: () => import("@/pages/PageNew.vue"),
+  },
+  {
     path: "/dashboard",
     name: RouteNames.dashboard,
     component: () => import("@/pages/PageDashboard.vue"),
