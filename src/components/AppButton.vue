@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex justify-center gap-2 rounded-md border border-transparent bg-primary-light py-2 px-4 align-middle font-medium text-white focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-offset-2"
+    class="flex justify-center gap-2 rounded-md border border-transparent bg-primary-800 py-2 px-4 align-middle font-medium text-white focus:outline-none focus:ring-2 focus:ring-primary-800 focus:ring-offset-2"
     :type="type"
   >
     {{ title }}<slot></slot>
