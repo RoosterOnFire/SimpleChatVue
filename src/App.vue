@@ -1,15 +1,18 @@
 <template>
   <router-view v-slot="{ Component }">
-    <div v-if="user.isLoading" class="mx-auto flex content-center items-center">
+    <div
+      v-if="user.isLoading"
+      class="flex min-h-full items-center justify-center"
+    >
       <SvgLoading />
     </div>
     <div
       v-else
-      class="flex-1"
+      class="flex min-h-full flex-1"
       :class="[
         isHome
-          ? 'flex flex-col items-center justify-center gap-8'
-          : 'flex max-h-full flex-col',
+          ? 'items-center justify-center py-12 px-4 sm:px-6 lg:px-8'
+          : 'flex-col',
       ]"
     >
       <component :is="Component" :key="route.path" />
@@ -18,10 +21,10 @@
 </template>
 
 <script lang="ts" setup>
+  import SvgLoading from "@/components/SvgLoading.vue"
+  import { useAuthStore } from "@/store/storeAuth"
   import { computed } from "vue"
   import { useRoute } from "vue-router"
-  import { useAuthStore } from "@/store/storeAuth"
-  import SvgLoading from "@/components/SvgLoading.vue"
 
   const user = useAuthStore()
   const route = useRoute()

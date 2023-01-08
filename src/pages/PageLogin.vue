@@ -1,31 +1,62 @@
 <template>
-  <h2 class="text-5xl font-bold text-primary">{{ "Simple Chat" }}</h2>
+  <div class="w-full max-w-md space-y-8">
+    <div>
+      <h2
+        class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
+      >
+        SimpleChat
+      </h2>
+    </div>
+    <form class="mt-8 space-y-6" @submit="onSubmit">
+      <div class="-space-y-px rounded-md shadow-sm">
+        <div>
+          <label for="email-address" class="sr-only">Email address</label>
+          <input
+            id="email-address"
+            name="email"
+            placeholder="Username"
+            class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
+            v-model="username"
+          />
+        </div>
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
+            placeholder="Password"
+            v-model="password"
+          />
+        </div>
+      </div>
 
-  <HomeForm @submit="onSubmit">
-    <AppInputError v-if="errors.form">
-      {{ "Login error" }}
-    </AppInputError>
-
-    <AppInput v-model="username" placeholder="Username" />
-
-    <AppInput v-model="password" placeholder="Password" type="password" />
-
-    <AppButton
-      title="Sign in"
-      type="submit"
-      :disabled="isSubmitting"
-    ></AppButton>
-  </HomeForm>
+      <div>
+        <button
+          :disabled="isSubmitting"
+          type="submit"
+          class="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        >
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <LockClosedIcon
+              class="h-5 w-5 text-primary-500 group-hover:text-primary-400"
+              aria-hidden="true"
+            />
+          </span>
+          Sign in
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script lang="ts" setup>
+  import { LockClosedIcon } from "@heroicons/vue/20/solid"
   import { useField, useForm } from "vee-validate"
   import { object, string } from "yup"
 
-  import AppButton from "@/components/AppButton.vue"
-  import AppInput from "@/components/AppInput.vue"
-  import AppInputError from "@/components/AppInputError.vue"
-  import HomeForm from "@/components/HomeForm.vue"
   import { useAuthStore } from "@/store/storeAuth"
 
   const auth = useAuthStore()
