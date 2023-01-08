@@ -26,8 +26,8 @@
 <script lang="ts" setup>
   import { useRoute } from "vue-router"
 
-  import { useRoomsStore } from "@/store/storeRooms"
   import { useAuthStore } from "@/store/storeAuth"
+  import { useRoomsStore } from "@/store/storeRooms"
   import SidebarButton from "./SidebarButton.vue"
   import SidebarLink from "./SidebarLink.vue"
 

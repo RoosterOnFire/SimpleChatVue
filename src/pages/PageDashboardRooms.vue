@@ -18,9 +18,8 @@
 
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
-  import { useRoomsStore } from "@/store/storeRooms"
   import AppInputError from "@/components/AppInputError.vue"
-  import { ClientResponseError } from "pocketbase"
+  import { useRoomsStore } from "@/store/storeRooms"
 
   const rooms = useRoomsStore()
 
