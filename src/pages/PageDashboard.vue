@@ -156,7 +156,7 @@
         <div class="flex flex-shrink-0 bg-gray-700 p-4">
           <a href="#" class="group block w-full flex-shrink-0">
             <div class="flex items-center">
-              <div>
+              <!-- <div>
                 <img
                   class="inline-block h-9 w-9 rounded-full"
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -164,7 +164,15 @@
                 />
               </div>
               <div class="ml-3">
-                <p class="text-sm font-medium text-white">Tom Cook</p>
+                <p class="text-sm font-medium text-white">{{ authUser }}</p>
+                <p
+                  class="text-xs font-medium text-gray-300 group-hover:text-gray-200"
+                >
+                  View profile
+                </p>
+              </div> -->
+              <div>
+                <p class="text-sm font-medium text-white">{{ authUser }}</p>
                 <p
                   class="text-xs font-medium text-gray-300 group-hover:text-gray-200"
                 >
@@ -210,6 +218,8 @@
   import { ref } from "vue"
   import { RouterLink } from "vue-router"
 
+  import { useAuthStore } from "@/store/storeAuth"
+
   const navigation = [
     {
       name: "Dashboard",
@@ -220,4 +230,7 @@
   ]
 
   const sidebarOpen = ref(false)
+
+  const auth = useAuthStore()
+  const authUser = auth.user?.name
 </script>

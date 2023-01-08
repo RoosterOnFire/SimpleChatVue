@@ -9,6 +9,7 @@ export const useAuthStore = defineStore("auth", {
   state: (): Auth => {
     return {
       status: StatusUser.init,
+      user: undefined,
     }
   },
 
@@ -24,6 +25,10 @@ export const useAuthStore = defineStore("auth", {
         const authData = await this.pb
           .collection("users")
           .authWithPassword(username, password)
+
+        this.user = {
+          name: authData.record.name,
+        }
 
         const storageCurrentpage = sessionStorage.getItem(
           storageKeys.current_page
@@ -67,6 +72,9 @@ export const useAuthStore = defineStore("auth", {
         .then(
           (res) => {
             this.status = StatusUser.fulfilled
+            this.user = {
+              name: res.record.name,
+            }
 
             const storageCurrentpage = this.storageCurrentpage
 
