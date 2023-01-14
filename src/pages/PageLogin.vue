@@ -1,12 +1,9 @@
 <template>
-  <div class="w-full max-w-md space-y-8">
-    <div>
-      <h2
-        class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
-      >
-        SimpleChat
-      </h2>
-    </div>
+  <div class="mx-auto flex h-full max-w-md flex-col justify-center">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900">
+      SimpleChat
+    </h2>
+
     <form class="mt-8 space-y-6" @submit="onSubmit">
       <div class="-space-y-px rounded-md shadow-sm">
         <div>
@@ -15,10 +12,12 @@
             id="email-address"
             name="email"
             placeholder="Username"
+            type="text"
             class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
             v-model="username"
           />
         </div>
+
         <div>
           <label for="password" class="sr-only">Password</label>
           <input
@@ -63,7 +62,6 @@
 
   const { errors, isSubmitting, handleSubmit } = useForm({
     validationSchema: object({
-      form: string().nullable(),
       username: string().required("Username is required"),
       password: string().required("Password is required"),
     }),
@@ -76,10 +74,11 @@
     if (payload.username != undefined && payload.password != undefined) {
       auth.loginWithUsernamePassword(payload.username, payload.password).then(
         (res) => {
-          resetForm()
+          // OK
         },
         (err) => {
-          setErrors({ form: err })
+          // show errors
+          setErrors({})
         }
       )
     }

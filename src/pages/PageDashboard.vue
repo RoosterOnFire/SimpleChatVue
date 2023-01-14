@@ -171,14 +171,14 @@
                   View profile
                 </p>
               </div> -->
-              <div>
+              <!-- <div>
                 <p class="text-sm font-medium text-white">{{ authUser }}</p>
                 <p
                   class="text-xs font-medium text-gray-300 group-hover:text-gray-200"
                 >
                   View profile
                 </p>
-              </div>
+              </div> -->
             </div>
           </a>
         </div>
