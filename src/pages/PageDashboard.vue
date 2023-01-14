@@ -199,13 +199,16 @@
         </button>
       </div>
 
-      <main class="flex-1 py-6">
+      <main class="flex-1 overflow-hidden py-6">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h1 class="text-2xl font-semibold text-gray-900">
             {{ currentPage }}
           </h1>
         </div>
-        <div class="mx-auto h-full max-w-7xl px-4 pt-4 sm:px-6 md:px-8">
+
+        <div
+          class="mx-auto flex h-full max-w-7xl flex-col px-4 pt-4 sm:px-6 md:px-8"
+        >
           <router-view />
         </div>
       </main>
@@ -230,7 +233,6 @@
   import { computed, ref } from "vue"
   import { RouterLink, useRoute } from "vue-router"
 
-  import { useAuth } from "@/store/storeAuth"
   import { useRooms } from "@/store/storeRooms"
 
   const route = useRoute()
@@ -264,13 +266,14 @@
     switch (route.name) {
       case "dashboard/rooms":
         return "Join room"
+
+      case "dashboard/chat":
+        return rooms.selectedRoomName
+
       default:
         return "Dashboard"
     }
   })
 
   const sidebarOpen = ref(false)
-
-  const auth = useAuth()
-  const authUser = auth.user?.name
 </script>

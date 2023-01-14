@@ -18,6 +18,10 @@ export const useRooms = defineStore("rooms", {
         room_name: room.room_name,
       }))
     },
+    selectedRoomName: (state) => {
+      return state.rooms.find((room) => room.id == state.selectedRoom)
+        ?.room_name
+    },
     isSelectedRoom: (state) => {
       return (id: string) => state.selectedRoom == id
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-1 flex-col items-stretch">
+  <div class="flex h-full flex-1 flex-col items-stretch">
     <ChatMessages :messages="messages" />
     <ChatMessage @send-message="sendMessage" />
   </div>
@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
   import { Record, RecordSubscription } from "pocketbase"
-  import { ref } from "vue"
+  import { reactive } from "vue"
 
   import ChatMessage from "@/components/ChatMessage.vue"
   import ChatMessages from "@/components/ChatMessages.vue"
@@ -15,7 +15,7 @@
 
   const rooms = useRooms()
 
-  const messages = ref<
+  const messages = reactive<
     { username: string; message: string; created: string }[]
   >([])
 
@@ -27,8 +27,21 @@
     rooms.sendChatMessage(message)
   }
 
+  if (rooms.selectedRoom) {
+    rooms.pbActions.getMessages(rooms.selectedRoom).then(
+      (res) => {
+        res.forEach((row) => {
+          messages.push(row)
+        })
+      },
+      (err) => {
+        // do nothing
+      }
+    )
+  }
+
   rooms.pbActions.subscribeToRoom(function (e: RecordSubscription<Record>) {
-    messages.value.push({
+    messages.push({
       username: e.record.username,
       message: e.record.message,
       created: e.record.created,

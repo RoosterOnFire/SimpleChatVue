@@ -12,6 +12,9 @@ declare module "pinia" {
       findRoom(roomName: string): Promise<Record>
       updateUserRooms(room: Record): Promise<void>
       subscribeToRoom(callback: (e: RecordSubscription<Record>) => void): void
+      getMessages(
+        id: string
+      ): Promise<{ username: string; message: string; created: string }[]>
       sendChatMessage(id: string, message: string): Promise<void>
     }
   }
