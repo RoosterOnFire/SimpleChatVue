@@ -63,14 +63,34 @@ export function storePocketbasePlugin(context: PiniaPluginContext) {
         })
     },
 
-    sendMessage(room: Record, message: string) {
+    getMessages(id: string, count = 10) {
+      return pb
+        .collection("message")
+        .getList(1, count, { filter: `room_id="${id}"` })
+        .then(
+          (res) => {
+            return res.items.map((item) => ({
+              username: item.username,
+              message: item.message,
+              created: item.created,
+            }))
+          },
+          (err) => {
+            console.error(err)
+            return Promise.reject("error")
+          }
+        )
+    },
+
+    sendChatMessage(id: string, message: string) {
       const username = pb.authStore.model?.username
+
       if (username == undefined) {
         return Promise.reject("Missing user")
       }
 
       return pb.collection("message").create({
-        room_id: room.id,
+        room_id: id,
         username: username,
         message: message,
       })

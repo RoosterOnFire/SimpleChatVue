@@ -3,12 +3,13 @@ import { ClientResponseError } from "pocketbase"
 
 import { Auth } from "@/store/typeStateUser"
 import { RouteNames, StatusUser, storageKeys } from "@/types/typeEnums"
-import { useRoomsStore } from "./storeRooms"
+import { useRooms } from "./storeRooms"
 
-export const useAuthStore = defineStore("auth", {
+export const useAuth = defineStore("auth", {
   state: (): Auth => {
     return {
       status: StatusUser.init,
+      user: undefined,
     }
   },
 
@@ -25,11 +26,15 @@ export const useAuthStore = defineStore("auth", {
           .collection("users")
           .authWithPassword(username, password)
 
+        this.user = {
+          name: authData.record.name,
+        }
+
         const storageCurrentpage = sessionStorage.getItem(
           storageKeys.current_page
         )
 
-        const roomsStore = useRoomsStore()
+        const roomsStore = useRooms()
 
         let goToRoute
         if (
@@ -67,10 +72,13 @@ export const useAuthStore = defineStore("auth", {
         .then(
           (res) => {
             this.status = StatusUser.fulfilled
+            this.user = {
+              name: res.record.name,
+            }
 
             const storageCurrentpage = this.storageCurrentpage
 
-            const roomsStore = useRoomsStore()
+            const roomsStore = useRooms()
 
             let goToRoute
             if (

@@ -1,31 +1,25 @@
 <template>
-  <div
-    class="mx-auto flex w-1/3 flex-1 flex-col items-center gap-8 overflow-hidden p-4"
-  >
-    <form
-      class="flex w-1/3 flex-col justify-center gap-3 md:flex-1"
-      @submit="onSubmit"
-    >
-      <AppInputError v-if="errors.room">{{ errors.room }}</AppInputError>
-      <AppInput v-model="room" placeholder="Room" />
-      <AppButton title="Join room" type="submit" />
-    </form>
-  </div>
+  <form class="flex max-w-lg flex-col justify-center gap-3" @submit="onSubmit">
+    <AppInputError v-if="errors.room">{{ errors.room }}</AppInputError>
+    <AppInput v-model="room" placeholder="Room" />
+    <AppButton title="Join" type="submit" />
+  </form>
 </template>
 
 <script lang="ts" setup>
   import { useField, useForm } from "vee-validate"
+  import { useRouter } from "vue-router"
 
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
-  import { useRoomsStore } from "@/store/storeRooms"
   import AppInputError from "@/components/AppInputError.vue"
-  import { ClientResponseError } from "pocketbase"
+  import { useRooms } from "@/store/storeRooms"
+  import { RouteNames } from "@/types/typeEnums"
 
-  const rooms = useRoomsStore()
+  const router = useRouter()
+  const rooms = useRooms()
 
   const { errors, handleSubmit } = useForm<{ room: string }>()
-
   const { value: room } = useField<string>("room")
 
   const onSubmit = handleSubmit((payload, { resetForm, setFieldError }) => {
@@ -34,6 +28,11 @@
         (res) => {
           if (res.status == "OK") {
             resetForm()
+
+            router.push({
+              name: RouteNames.dashboard_chat,
+              params: { id: res.roomId },
+            })
           } else if (res.status == "ERROR") {
             setFieldError("room", res.error.data.data?.room_name?.message)
           }

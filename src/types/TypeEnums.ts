@@ -11,6 +11,7 @@ export enum RouteNames {
   dashboard_chat = "dashboard/chat",
   dashboard_rooms = "dashboard/rooms",
   dashboard_settings_user = "dashboard/settings/user",
+  new = "new",
   home = "home",
   login = "home/login",
   registration = "home/registration",

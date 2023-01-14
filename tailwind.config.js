@@ -1,7 +1,6 @@
 const colors = require("tailwindcss/colors")
 
-const pimaryColor = colors.zinc
-const errorColor = colors.red
+const pimaryColor = colors.gray
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -13,6 +12,15 @@ module.exports = {
     extend: {
       colors: {
         primary: {
+          100: pimaryColor[100],
+          200: pimaryColor[200],
+          300: pimaryColor[300],
+          400: pimaryColor[400],
+          500: pimaryColor[500],
+          600: pimaryColor[600],
+          700: pimaryColor[700],
+          800: pimaryColor[800],
+          900: pimaryColor[900],
           lighter: pimaryColor[500],
           light: pimaryColor[600],
           DEFAULT: pimaryColor[700],
@@ -23,7 +31,7 @@ module.exports = {
           DEFAULT: colors.green[500],
         },
         error: {
-          DEFAULT: errorColor[600],
+          DEFAULT: colors.red[600],
         },
       },
     },
@@ -31,5 +39,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 }

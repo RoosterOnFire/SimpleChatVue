@@ -1,32 +1,27 @@
 <template>
   <router-view v-slot="{ Component }">
-    <div v-if="user.isLoading" class="mx-auto flex content-center items-center">
-      <SvgLoading />
-    </div>
-    <div
-      v-else
-      class="flex-1"
-      :class="[
-        isHome
-          ? 'flex flex-col items-center justify-center gap-8'
-          : 'flex max-h-full flex-col',
-      ]"
-    >
-      <component :is="Component" :key="route.path" />
-    </div>
+    <TheLoading v-if="auth.isLoading" />
+    <component v-else :is="Component" :key="route.path" />
   </router-view>
 </template>
 
 <script lang="ts" setup>
-  import { computed } from "vue"
+  import { watch } from "vue"
   import { useRoute } from "vue-router"
-  import { useAuthStore } from "@/store/storeAuth"
-  import SvgLoading from "@/components/SvgLoading.vue"
 
-  const user = useAuthStore()
+  import TheLoading from "@/components/TheLoading.vue"
+  import { useAuth } from "@/store/storeAuth"
+  import { useRooms } from "./store/storeRooms"
+
   const route = useRoute()
+  const auth = useAuth()
+  const rooms = useRooms()
 
-  user.sessionRestore()
+  auth.sessionRestore()
 
-  const isHome = computed(() => route.name?.toString().startsWith("home"))
+  watch([() => route.name, () => route.params], async (newValues) => {
+    if (newValues[0] == "dashboard/chat") {
+      rooms.joinRoom(route.params.id as string)
+    }
+  })
 </script>

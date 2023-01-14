@@ -36,9 +36,9 @@
   import AppInput from "@/components/AppInput.vue"
   import AppInputError from "@/components/AppInputError.vue"
   import HomeForm from "@/components/HomeForm.vue"
-  import { useAuthStore } from "@/store/storeAuth"
+  import { useAuth } from "@/store/storeAuth"
 
-  const user = useAuthStore()
+  const auth = useAuth()
   const router = useRouter()
 
   const { errors, handleSubmit } = useForm({
