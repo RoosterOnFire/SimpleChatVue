@@ -63,14 +63,15 @@ export function storePocketbasePlugin(context: PiniaPluginContext) {
         })
     },
 
-    sendMessage(room: Record, message: string) {
+    sendChatMessage(id: string, message: string) {
       const username = pb.authStore.model?.username
+
       if (username == undefined) {
         return Promise.reject("Missing user")
       }
 
       return pb.collection("message").create({
-        room_id: room.id,
+        room_id: id,
         username: username,
         message: message,
       })

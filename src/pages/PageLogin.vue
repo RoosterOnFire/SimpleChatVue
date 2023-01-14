@@ -56,9 +56,9 @@
   import { useField, useForm } from "vee-validate"
   import { object, string } from "yup"
 
-  import { useAuthStore } from "@/store/storeAuth"
+  import { useAuth } from "@/store/storeAuth"
 
-  const auth = useAuthStore()
+  const auth = useAuth()
 
   const { errors, isSubmitting, handleSubmit } = useForm({
     validationSchema: object({

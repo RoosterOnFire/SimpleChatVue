@@ -6,21 +6,32 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed } from "vue"
+  import { Record, RecordSubscription } from "pocketbase"
+  import { ref } from "vue"
 
   import ChatMessage from "@/components/ChatMessage.vue"
   import ChatMessages from "@/components/ChatMessages.vue"
-  import { useRoomsStore } from "@/store/storeRooms"
-  import { RoomMessage } from "@/store/typeStateRooms"
+  import { useRooms } from "@/store/storeRooms"
 
-  const rooms = useRoomsStore()
-  const messages = computed<RoomMessage[]>(() => rooms.messages)
+  const rooms = useRooms()
 
-  function sendMessage(value: string | undefined) {
-    if (value == null) {
+  const messages = ref<
+    { username: string; message: string; created: string }[]
+  >([])
+
+  function sendMessage(message: string | undefined) {
+    if (message == undefined) {
       return
     }
 
-    rooms.addMessage(value)
+    rooms.sendChatMessage(message)
   }
+
+  rooms.pbActions.subscribeToRoom(function (e: RecordSubscription<Record>) {
+    messages.value.push({
+      username: e.record.username,
+      message: e.record.message,
+      created: e.record.created,
+    })
+  })
 </script>

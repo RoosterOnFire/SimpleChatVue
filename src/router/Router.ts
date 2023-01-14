@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 
-import { useAuthStore } from "@/store/storeAuth"
+import { useAuth } from "@/store/storeAuth"
 import { RouteNames, storageKeys } from "@/types/typeEnums"
 
 const routes: RouteRecordRaw[] = [
@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/pages/PageDashboard.vue"),
     children: [
       {
-        path: "chat",
+        path: "chat/:id",
         name: RouteNames.dashboard_chat,
         component: () => import("@/pages/PageDashboardChat.vue"),
       },
@@ -34,7 +34,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const auth = useAuthStore()
+  const auth = useAuth()
   if (
     auth == null &&
     (from.name === RouteNames.home || to.name !== RouteNames.home)

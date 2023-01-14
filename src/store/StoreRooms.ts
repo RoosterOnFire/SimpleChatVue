@@ -1,15 +1,13 @@
 import { defineStore } from "pinia"
-import { ClientResponseError, Record, RecordSubscription } from "pocketbase"
+import { ClientResponseError } from "pocketbase"
 
 import { Rooms } from "@/store/typeStateRooms"
-import { RouteNames } from "@/types/typeEnums"
 
-export const useRoomsStore = defineStore("rooms", {
+export const useRooms = defineStore("rooms", {
   state: (): Rooms => {
     return {
-      selectedRoom: undefined,
       rooms: [],
-      roomMessages: [],
+      selectedRoom: undefined,
     }
   },
 
@@ -20,11 +18,11 @@ export const useRoomsStore = defineStore("rooms", {
         room_name: room.room_name,
       }))
     },
-    messages: (state) => {
-      return state.roomMessages
-    },
     isSelectedRoom: (state) => {
       return (id: string) => state.selectedRoom == id
+    },
+    isRoomInRooms: (state) => {
+      return (id: string) => state.rooms.findIndex((row) => row.id == id) == -1
     },
   },
 
@@ -32,59 +30,33 @@ export const useRoomsStore = defineStore("rooms", {
     async joinRoom(
       roomName: string
     ): Promise<
-      { status: "OK" } | { status: "ERROR"; error: ClientResponseError }
+      | { status: "OK"; roomId: string }
+      | { status: "ERROR"; error: ClientResponseError }
     > {
       try {
         const connectedRoom = this.joinedRooms.find((row) => row.id == roomName)
-
         if (connectedRoom != undefined) {
           this.selectedRoom = connectedRoom.id
-          this.roomMessages = []
-          return { status: "OK" }
+          return { status: "OK", roomId: connectedRoom.id }
         }
 
-        const res = await this.pbActions.findRoom(roomName)
+        const findRoomResponse = await this.pbActions.findRoom(roomName)
 
-        if (this.joinedRooms.findIndex((row) => row.id == res.id) == -1) {
-          this.rooms.push(res)
+        this.selectedRoom = findRoomResponse.id
+
+        if (this.isRoomInRooms(findRoomResponse.id)) {
+          this.rooms.push(findRoomResponse)
         }
-        this.selectedRoom = res.id
 
-        const self = this
-        this.pbActions.subscribeToRoom(function (
-          e: RecordSubscription<Record>
-        ) {
-          self.roomMessages.push({
-            username: e.record.username,
-            message: e.record.message,
-            created: e.record.created,
-          })
-        })
-
-        this.router.push({ name: RouteNames.dashboard_chat })
-
-        return { status: "OK" }
+        return { status: "OK", roomId: findRoomResponse.id }
       } catch (err) {
         try {
-          const res = await this.pbActions.createRoom(roomName)
+          const createRoomResponse = await this.pbActions.createRoom(roomName)
 
-          this.selectedRoom = res.id
-          this.rooms.push(res)
-          this.roomMessages = []
+          this.selectedRoom = createRoomResponse.id
+          this.rooms.push(createRoomResponse)
 
-          const self = this
-          this.pbActions.subscribeToRoom(function (
-            e: RecordSubscription<Record>
-          ) {
-            self.roomMessages.push({
-              username: e.record.username,
-              message: e.record.message,
-              created: e.record.created,
-            })
-          })
-
-          this.router.push({ name: RouteNames.dashboard_chat })
-          return { status: "OK" }
+          return { status: "OK", roomId: createRoomResponse.id }
         } catch (error) {
           if (error instanceof ClientResponseError) {
             return { status: "ERROR", error: error }
@@ -95,18 +67,14 @@ export const useRoomsStore = defineStore("rooms", {
       }
     },
 
-    selectRoom(id: string) {
-      this.selectedRoom = id
-      this.roomMessages = []
-      this.router.push({ name: RouteNames.dashboard_chat })
-    },
-
-    addMessage(message: string) {
-      const room = this.rooms.find((room) => room.id == this.selectedRoom)
-
-      if (room != undefined) {
-        this.pbActions.sendMessage(room, message).then(() => {}, console.error)
+    sendChatMessage(message: string) {
+      if (this.selectedRoom == undefined) {
+        throw Error("Selected room undefined")
       }
+
+      this.pbActions
+        .sendChatMessage(this.selectedRoom, message)
+        .then(() => {}, console.error)
     },
   },
 })

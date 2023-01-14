@@ -3,9 +3,9 @@ import { ClientResponseError } from "pocketbase"
 
 import { Auth } from "@/store/typeStateUser"
 import { RouteNames, StatusUser, storageKeys } from "@/types/typeEnums"
-import { useRoomsStore } from "./storeRooms"
+import { useRooms } from "./storeRooms"
 
-export const useAuthStore = defineStore("auth", {
+export const useAuth = defineStore("auth", {
   state: (): Auth => {
     return {
       status: StatusUser.init,
@@ -34,7 +34,7 @@ export const useAuthStore = defineStore("auth", {
           storageKeys.current_page
         )
 
-        const roomsStore = useRoomsStore()
+        const roomsStore = useRooms()
 
         let goToRoute
         if (
@@ -78,7 +78,7 @@ export const useAuthStore = defineStore("auth", {
 
             const storageCurrentpage = this.storageCurrentpage
 
-            const roomsStore = useRoomsStore()
+            const roomsStore = useRooms()
 
             let goToRoute
             if (
