@@ -38,9 +38,9 @@ export const useAuth = defineStore("auth", {
 
         let goToRoute
         if (
-          storageCurrentpage === null ||
+          storageCurrentpage == null ||
           storageCurrentpage.startsWith("home") ||
-          roomsStore.selectedRoom === undefined
+          roomsStore.selectedRoom == undefined
         ) {
           goToRoute = RouteNames.dashboard_rooms
         } else {
@@ -59,9 +59,9 @@ export const useAuth = defineStore("auth", {
       } catch (error) {
         if (error instanceof ClientResponseError) {
           return Promise.reject(error.message)
-        } else {
-          return Promise.reject("Something went wrong")
         }
+
+        return Promise.reject("Something went wrong")
       }
     },
 
@@ -84,7 +84,7 @@ export const useAuth = defineStore("auth", {
             if (
               storageCurrentpage == null ||
               storageCurrentpage.startsWith("home") ||
-              roomsStore.selectedRoom === undefined
+              roomsStore.selectedRoom == undefined
             ) {
               goToRoute = RouteNames.dashboard_rooms
             } else {

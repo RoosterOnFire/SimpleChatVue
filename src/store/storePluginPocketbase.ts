@@ -46,13 +46,9 @@ export function storePocketbasePlugin(context: PiniaPluginContext) {
     },
 
     updateUserRooms(room: Record) {
-      if (pb.authStore.model?.id != undefined) {
-        return pb.collection("users").update(pb.authStore.model.id, {
-          rooms: [...pb.authStore.model.rooms, room.id],
-        })
-      }
-
-      return Promise.reject("Missing user")
+      return pb.collection("users").update(pb.authStore.model!.id, {
+        rooms: [...pb.authStore.model!.rooms, room.id],
+      })
     },
 
     subscribeToRoom(callback) {
@@ -83,15 +79,9 @@ export function storePocketbasePlugin(context: PiniaPluginContext) {
     },
 
     sendChatMessage(id: string, message: string) {
-      const username = pb.authStore.model?.username
-
-      if (username == undefined) {
-        return Promise.reject("Missing user")
-      }
-
       return pb.collection("message").create({
         room_id: id,
-        username: username,
+        username: pb.authStore.model!.username,
         message: message,
       })
     },

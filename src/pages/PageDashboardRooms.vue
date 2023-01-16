@@ -23,24 +23,24 @@
   const { value: room } = useField<string>("room")
 
   const onSubmit = handleSubmit((payload, { resetForm, setFieldError }) => {
-    if (payload.room) {
-      rooms.joinRoom(payload.room).then(
-        (res) => {
-          if (res.status == "OK") {
-            resetForm()
-
-            router.push({
-              name: RouteNames.dashboard_chat,
-              params: { id: res.roomId },
-            })
-          } else if (res.status == "ERROR") {
-            setFieldError("room", res.error.data.data?.room_name?.message)
-          }
-        },
-        (err) => {
-          console.error(err)
+    rooms.joinRoom(payload.room).then(
+      (res) => {
+        if (res.status == "ERROR") {
+          setFieldError("room", res.error.data.data?.room_name?.message)
         }
-      )
-    }
+
+        if (res.status == "OK") {
+          resetForm()
+
+          router.push({
+            name: RouteNames.dashboard_chat,
+            params: { id: res.roomId },
+          })
+        }
+      },
+      (err) => {
+        console.error(err)
+      }
+    )
   })
 </script>

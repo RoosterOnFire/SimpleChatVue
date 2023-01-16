@@ -60,7 +60,7 @@
 
   const auth = useAuth()
 
-  const { errors, isSubmitting, handleSubmit } = useForm({
+  const { isSubmitting, handleSubmit } = useForm({
     validationSchema: object({
       username: string().required("Username is required"),
       password: string().required("Password is required"),
@@ -71,16 +71,13 @@
   const { value: password } = useField<string>("password")
 
   const onSubmit = handleSubmit((payload, { setErrors, resetForm }) => {
-    if (payload.username != undefined && payload.password != undefined) {
-      auth.loginWithUsernamePassword(payload.username, payload.password).then(
-        (res) => {
-          // OK
-        },
-        (err) => {
-          // show errors
-          setErrors({})
-        }
-      )
-    }
+    auth.loginWithUsernamePassword(payload.username!, payload.password!).then(
+      (res) => {
+        resetForm()
+      },
+      (err) => {
+        setErrors({})
+      }
+    )
   })
 </script>

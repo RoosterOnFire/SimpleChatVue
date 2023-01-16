@@ -72,12 +72,8 @@ export const useRooms = defineStore("rooms", {
     },
 
     sendChatMessage(message: string) {
-      if (this.selectedRoom == undefined) {
-        throw Error("Selected room undefined")
-      }
-
       this.pbActions
-        .sendChatMessage(this.selectedRoom, message)
+        .sendChatMessage(this.selectedRoom!, message)
         .then(() => {}, console.error)
     },
   },

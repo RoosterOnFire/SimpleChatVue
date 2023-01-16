@@ -35,7 +35,7 @@
         })
       },
       (err) => {
-        // do nothing
+        console.error(err)
       }
     )
   }
