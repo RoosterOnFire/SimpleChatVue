@@ -20,7 +20,31 @@ export const useAuth = defineStore("auth", {
   },
 
   actions: {
-    async loginWithUsernamePassword(username: string, password: string) {
+    async register(
+      username: string,
+      password: string,
+      passwordConfirm: string
+    ) {
+      try {
+        const data = {
+          username,
+          password,
+          passwordConfirm,
+          name: username,
+        }
+
+        await this.pb.collection("users").create(data)
+
+        this.login(username, password)
+      } catch (error) {
+        if (error instanceof ClientResponseError) {
+          return Promise.reject(error)
+        }
+
+        return Promise.reject("Something went wrong")
+      }
+    },
+    async login(username: string, password: string) {
       try {
         const authData = await this.pb
           .collection("users")

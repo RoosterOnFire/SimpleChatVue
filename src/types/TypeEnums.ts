@@ -13,8 +13,8 @@ export enum RouteNames {
   dashboard_settings_user = "dashboard/settings/user",
   new = "new",
   home = "home",
-  login = "home/login",
-  registration = "home/registration",
+  login = "login",
+  registration = "registration",
 }
 
 export enum storageKeys {

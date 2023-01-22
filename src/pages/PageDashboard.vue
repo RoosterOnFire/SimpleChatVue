@@ -154,7 +154,11 @@
           </nav>
         </div>
         <div class="flex flex-shrink-0 bg-gray-700 p-4">
-          <a href="#" class="group block w-full flex-shrink-0">
+          <a
+            href="#"
+            class="group block w-full flex-shrink-0"
+            @click.prevent="logout"
+          >
             <div class="flex items-center">
               <!-- <div>
                 <img
@@ -171,14 +175,14 @@
                   View profile
                 </p>
               </div> -->
-              <!-- <div>
-                <p class="text-sm font-medium text-white">{{ authUser }}</p>
+              <div>
+                <!-- <p class="text-sm font-medium text-white">{{ authUser }}</p> -->
                 <p
                   class="text-xs font-medium text-gray-300 group-hover:text-gray-200"
                 >
-                  View profile
+                  Logout
                 </p>
-              </div> -->
+              </div>
             </div>
           </a>
         </div>
@@ -233,6 +237,7 @@
   import { computed, ref } from "vue"
   import { RouterLink, useRoute } from "vue-router"
 
+  import { useAuth } from "@/store/storeAuth"
   import { useRooms } from "@/store/storeRooms"
 
   const route = useRoute()
@@ -276,4 +281,9 @@
   })
 
   const sidebarOpen = ref(false)
+
+  const auth = useAuth()
+  function logout() {
+    auth.userLogout()
+  }
 </script>

@@ -48,12 +48,22 @@
         </button>
       </div>
     </form>
+
+    <div class="mt-4 text-sm">
+      <RouterLink
+        to="/register"
+        class="font-medium text-primary-600 hover:text-primary-500"
+      >
+        {{ "Or make an account" }}
+      </RouterLink>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { LockClosedIcon } from "@heroicons/vue/20/solid"
   import { useField, useForm } from "vee-validate"
+  import { RouterLink } from "vue-router"
   import { object, string } from "yup"
 
   import { useAuth } from "@/store/storeAuth"
@@ -71,7 +81,7 @@
   const { value: password } = useField<string>("password")
 
   const onSubmit = handleSubmit((payload, { setErrors, resetForm }) => {
-    auth.loginWithUsernamePassword(payload.username!, payload.password!).then(
+    auth.login(payload.username!, payload.password!).then(
       (res) => {
         resetForm()
       },
